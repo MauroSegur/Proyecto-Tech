@@ -1,7 +1,6 @@
-/* ================================================
-   CLASE 1: SISTEMA DE AUTENTICACIÓN
-   Maneja login, registro, logout y modales
-   ================================================ */
+/* =========================================================
+   CLASE 1: SISTEMA DE AUTENTICACIÓN (LOGIN/REGISTRO)
+   ========================================================= */
 class AuthSystem {
     constructor() {
         this.users = JSON.parse(localStorage.getItem('solarUsers')) || [];
@@ -10,21 +9,20 @@ class AuthSystem {
     }
 
     init() {
-        // Comprobar estado inicial
+        // Control de vistas
         if (this.currentUser) {
             this.showMainContent();
         } else {
             this.showWelcomeScreen();
         }
 
-        // Listeners de Formularios
+        // Listeners
         const loginForm = document.getElementById('loginForm');
         const registerForm = document.getElementById('registerForm');
         
         if(loginForm) loginForm.addEventListener('submit', (e) => this.handleLogin(e));
         if(registerForm) registerForm.addEventListener('submit', (e) => this.handleRegister(e));
 
-        // Listener Global para Logout (Delegación de eventos)
         document.addEventListener('click', (e) => {
             if(e.target && (e.target.id === 'logoutBtn' || e.target.closest('#logoutBtn'))) {
                 e.preventDefault();
@@ -33,22 +31,16 @@ class AuthSystem {
         });
     }
 
-    // -- MÉTODOS DE LÓGICA --
-
     handleLogin(e) {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
-
         const user = this.users.find(u => u.email === email && u.password === password);
 
         if (user) {
-            this.currentUser = user;
-            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.setCurrentUser(user);
             this.safeHideModal('loginModal');
-            this.showMainContent();
             e.target.reset();
-            alert(`¡Bienvenido, ${user.firstName}!`);
         } else {
             alert('Credenciales incorrectas');
         }
@@ -61,28 +53,22 @@ class AuthSystem {
         const password = document.getElementById('registerPassword').value;
         const confirm = document.getElementById('confirmPassword').value;
 
-        if (password !== confirm) {
-            alert('Las contraseñas no coinciden');
-            return;
-        }
-
-        if (this.users.find(u => u.email === email)) {
-            alert('El correo ya está registrado');
-            return;
-        }
+        if (password !== confirm) return alert('Las contraseñas no coinciden');
+        if (this.users.find(u => u.email === email)) return alert('El correo ya existe');
 
         const newUser = { firstName, email, password };
         this.users.push(newUser);
         localStorage.setItem('solarUsers', JSON.stringify(this.users));
-        
-        // Auto-login
-        this.currentUser = newUser;
-        localStorage.setItem('currentUser', JSON.stringify(newUser));
-        
+        this.setCurrentUser(newUser);
         this.safeHideModal('registerModal');
-        this.showMainContent();
         e.target.reset();
-        alert('Cuenta creada exitosamente');
+        alert('Cuenta creada con éxito');
+    }
+
+    setCurrentUser(user) {
+        this.currentUser = user;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.showMainContent();
     }
 
     logout() {
@@ -90,8 +76,6 @@ class AuthSystem {
         localStorage.removeItem('currentUser');
         this.showWelcomeScreen();
     }
-
-    // -- MÉTODOS DE INTERFAZ --
 
     showWelcomeScreen() {
         document.getElementById('welcomeScreen').classList.remove('d-none');
@@ -106,60 +90,67 @@ class AuthSystem {
         }
     }
 
-    // Función crítica para cerrar modales correctamente con Bootstrap 5
     safeHideModal(modalId) {
         const el = document.getElementById(modalId);
         if (el) {
             const modal = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
             modal.hide();
-            // Limpieza forzada del fondo gris por si se queda pegado
             setTimeout(() => {
                 document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
                 document.body.classList.remove('modal-open');
                 document.body.style = '';
-            }, 200);
+            }, 300);
         }
     }
 }
 
-/* ================================================
-   CLASE 2: GESTOR DE DATOS Y CALCULADORA
-   Maneja el dataset histórico y los cálculos
-   ================================================ */
+/* =========================================================
+   CLASE 2: GESTOR DE DATOS, CALCULADORA Y DASHBOARD DINÁMICO
+   ========================================================= */
 class EnergyManager {
     constructor() {
-        this.energyData = this.generateData();
+        this.energyData = this.generateDataset();
+        // Almacenamos las instancias de los gráficos para actualizarlos luego
+        this.charts = {
+            bar: null,
+            pie: null,
+            line: null,
+            area: null
+        };
         this.init();
     }
 
     init() {
         this.renderTable();
         this.initCalculator();
+        // Renderizado inicial (Datos globales por defecto)
+        setTimeout(() => this.renderInitialDashboard(), 500);
     }
 
-    // 1. Generar Datos Simulados (1965 - 2022)
-    generateData() {
+    generateDataset() {
         const data = [];
         for (let year = 1965; year <= 2022; year++) {
-            // Simulación matemática de crecimiento
             const diff = year - 1965;
+            // Simulación matemática de crecimiento
             const solar = year < 1990 ? 0 : Math.round(Math.pow(year - 1990, 2.1) * 0.4);
-            const wind = year < 1985 ? 0 : Math.round(Math.pow(year - 1985, 2.2) * 0.3);
-            const hydro = 2000 + (diff * 40); 
-            const others = 100 + (diff * 5);
-            const fossil = 10000 + (diff * 150);
+            const wind = year < 1985 ? 0 : Math.round(Math.pow(year - 1985, 2.2) * 0.35);
+            const hydro = 2000 + (diff * 45);
+            const biofuel = year < 2000 ? 50 : 50 + (Math.pow(year - 2000, 1.8) * 2);
+            const geothermal = 30 + (diff * 2);
 
-            const totalRenewable = solar + wind + hydro + others;
-            const totalGeneration = totalRenewable + fossil;
+            const totalRenewable = solar + wind + hydro + biofuel + geothermal;
+            const conventional = 12000 + (diff * 120); 
+            const totalGeneration = totalRenewable + conventional;
             const percentage = ((totalRenewable / totalGeneration) * 100).toFixed(2);
 
-            data.push({ year, solar, wind, hydro, others, totalRenewable, totalGeneration, percentage });
+            data.push({
+                year, solar, wind, hydro, biofuel, geothermal,
+                totalRenewable, conventional, totalGeneration, percentage
+            });
         }
-        // Retornar invertido (2022 primero)
         return data.reverse();
     }
 
-    // 2. Renderizar Tabla
     renderTable() {
         const tbody = document.getElementById('tableBody');
         if (!tbody) return;
@@ -170,15 +161,14 @@ class EnergyManager {
                 <td>${row.solar}</td>
                 <td>${row.wind}</td>
                 <td>${row.hydro}</td>
-                <td>${row.others}</td>
-                <td class="text-success fw-bold">${row.totalRenewable}</td>
-                <td>${row.totalGeneration}</td>
-                <td><span class="badge bg-${row.percentage > 25 ? 'success' : 'warning'}">${row.percentage}%</span></td>
+                <td>${(row.biofuel + row.geothermal).toFixed(0)}</td>
+                <td class="text-success fw-bold">${(row.totalRenewable).toFixed(0)}</td>
+                <td class="text-muted">${(row.conventional).toFixed(0)}</td>
+                <td><span class="badge bg-${row.percentage > 20 ? 'success' : 'warning'}">${row.percentage}%</span></td>
             </tr>
         `).join('');
     }
 
-    // 3. Lógica de la Calculadora
     initCalculator() {
         const form = document.getElementById('calculatorForm');
         if (!form) return;
@@ -187,24 +177,153 @@ class EnergyManager {
             e.preventDefault();
             const userKwh = parseFloat(document.getElementById('userConsumption').value);
             
-            if (isNaN(userKwh) || userKwh <= 0) return;
+            if (isNaN(userKwh) || userKwh <= 0) {
+                alert("Por favor ingresa un consumo válido");
+                return;
+            }
 
-            // Usar datos de 2022 (índice 0)
-            const lastData = this.energyData[0];
-            const proportion = lastData.totalRenewable / lastData.totalGeneration;
-            const userRenewable = (userKwh * proportion).toFixed(2);
+            // 1. Cálculos Numéricos
+            const latest = this.energyData[0]; // Datos 2022
+            const proportion = latest.totalRenewable / latest.totalGeneration;
+            const cleanKwh = (userKwh * proportion).toFixed(2);
 
-            // Mostrar resultados
+            // Mostrar Tarjeta de Resultados
             document.getElementById('resultCard').classList.remove('d-none');
-            document.getElementById('globalCapacityVal').textContent = lastData.totalRenewable + " TWh";
-            document.getElementById('globalPercentVal').textContent = lastData.percentage + "%";
+            document.getElementById('globalPercentVal').textContent = latest.percentage + "%";
+            document.getElementById('globalCapacityVal').textContent = latest.totalRenewable.toFixed(0) + " TWh";
             document.getElementById('userInputVal').textContent = userKwh;
-            document.getElementById('userRenewableVal').textContent = userRenewable;
+            document.getElementById('userRenewableVal').textContent = cleanKwh;
+
+            // 2. ACTUALIZAR EL DASHBOARD CON LOS DATOS DEL USUARIO
+            this.updateDashboardWithUserData(userKwh);
+            
+            // Hacer scroll suave hacia el dashboard
+            document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
         });
+    }
+
+    // --- RENDERIZADO INICIAL (GLOBAL) ---
+    renderInitialDashboard() {
+        if (!document.getElementById('barChart')) return;
+
+        const latest = this.energyData[0]; // Datos Globales 2022
+        const historic = [...this.energyData].reverse();
+        const years = historic.map(d => d.year);
+
+        // A. Gráfico de Barras: Producción Global
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        this.charts.bar = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['Eólica', 'Solar', 'Hidro', 'Biocombustibles', 'Geotérmica'],
+                datasets: [{
+                    label: 'Global (TWh)',
+                    data: [latest.wind, latest.solar, latest.hydro, latest.biofuel, latest.geothermal],
+                    backgroundColor: ['#42A5F5', '#FFA726', '#26C6DA', '#66BB6A', '#AB47BC']
+                }]
+            },
+            options: { responsive: true, plugins: { title: { display: true, text: 'Contexto Global (TWh)' } } }
+        });
+
+        // B. Gráfico de Torta: Participación Global
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        this.charts.pie = new Chart(ctxPie, {
+            type: 'doughnut',
+            data: {
+                labels: ['Eólica', 'Solar', 'Hidro', 'Otros'],
+                datasets: [{
+                    data: [latest.wind, latest.solar, latest.hydro, (latest.biofuel + latest.geothermal)],
+                    backgroundColor: ['#42A5F5', '#FFA726', '#26C6DA', '#AB47BC']
+                }]
+            },
+            options: { plugins: { title: { display: true, text: 'Mix Energético Global' } } }
+        });
+
+        // C. Gráfico de Líneas: Histórico (Este no cambia con el usuario, es contexto)
+        const ctxLine = document.getElementById('lineChart').getContext('2d');
+        this.charts.line = new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [
+                    { label: 'Renovable (TWh)', data: historic.map(d => d.totalRenewable), borderColor: '#26C6DA', tension: 0.3 },
+                    { label: 'Solar (TWh)', data: historic.map(d => d.solar), borderColor: '#FFA726', tension: 0.3 }
+                ]
+            },
+            options: { responsive: true, elements: { point: { radius: 0 } }, plugins: { title: { display: true, text: 'Evolución Histórica Global' } } }
+        });
+
+        // D. Gráfico de Área: Inicialmente Global
+        const ctxArea = document.getElementById('areaChart').getContext('2d');
+        this.charts.area = new Chart(ctxArea, {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [
+                    { label: 'Renovable', data: historic.map(d => d.totalRenewable), borderColor: '#66BB6A', backgroundColor: 'rgba(102, 187, 106, 0.5)', fill: true },
+                    { label: 'Convencional', data: historic.map(d => d.conventional), borderColor: '#78909C', backgroundColor: 'rgba(120, 144, 156, 0.5)', fill: true }
+                ]
+            },
+            options: { responsive: true, elements: { point: { radius: 0 } }, scales: { y: { stacked: true } }, plugins: { title: { display: true, text: 'Comparativa Histórica Global' } } }
+        });
+    }
+
+    // --- ACTUALIZACIÓN DINÁMICA (CUANDO EL USUARIO CALCULA) ---
+    updateDashboardWithUserData(userKwh) {
+        const latest = this.energyData[0]; // Datos base para sacar proporciones
+        
+        // Calcular factores de proporción global
+        const totalGen = latest.totalGeneration;
+        const ratios = {
+            wind: latest.wind / totalGen,
+            solar: latest.solar / totalGen,
+            hydro: latest.hydro / totalGen,
+            bioGeo: (latest.biofuel + latest.geothermal) / totalGen,
+            conventional: latest.conventional / totalGen
+        };
+
+        // Aplicar proporciones al consumo del usuario
+        const userVals = {
+            wind: (userKwh * ratios.wind).toFixed(1),
+            solar: (userKwh * ratios.solar).toFixed(1),
+            hydro: (userKwh * ratios.hydro).toFixed(1),
+            bioGeo: (userKwh * ratios.bioGeo).toFixed(1),
+            conventional: (userKwh * ratios.conventional).toFixed(1)
+        };
+
+        // 1. ACTUALIZAR BARRAS: Ahora muestra TU consumo desglosado
+        this.charts.bar.data.datasets[0].label = 'Tu Consumo Estimado (kWh)';
+        this.charts.bar.data.datasets[0].data = [userVals.wind, userVals.solar, userVals.hydro, userVals.bioGeo, 0];
+        this.charts.bar.options.plugins.title.text = `Desglose de tus ${userKwh} kWh`;
+        this.charts.bar.update();
+
+        // 2. ACTUALIZAR TORTA: Composición de TU energía
+        this.charts.pie.data.datasets[0].data = [userVals.wind, userVals.solar, userVals.hydro, userVals.bioGeo];
+        this.charts.pie.options.plugins.title.text = 'Tu Huella Energética';
+        this.charts.pie.update();
+
+        // 3. ACTUALIZAR ÁREA: Proyección a 1 año de TU consumo
+        // Simulamos meses
+        const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        const userCleanMonthly = (parseFloat(userVals.wind) + parseFloat(userVals.solar) + parseFloat(userVals.hydro) + parseFloat(userVals.bioGeo));
+        const userConvMonthly = parseFloat(userVals.conventional);
+
+        // Crear proyección acumulada
+        const projectionClean = months.map((_, i) => userCleanMonthly * (i + 1));
+        const projectionConv = months.map((_, i) => userConvMonthly * (i + 1));
+
+        this.charts.area.data.labels = months;
+        this.charts.area.data.datasets[0].data = projectionClean;
+        this.charts.area.data.datasets[0].label = 'Tu Consumo Limpio Acumulado';
+        this.charts.area.data.datasets[1].data = projectionConv;
+        this.charts.area.data.datasets[1].label = 'Tu Consumo Convencional Acumulado';
+        this.charts.area.options.plugins.title.text = 'Proyección de tu impacto a 1 año (kWh)';
+        this.charts.area.options.scales.y.stacked = false; // Desapilar para comparar mejor
+        this.charts.area.update();
     }
 }
 
-// INICIALIZACIÓN GLOBAL
+// INICIALIZACIÓN
 document.addEventListener('DOMContentLoaded', () => {
     new AuthSystem();
     new EnergyManager();
