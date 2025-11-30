@@ -1,95 +1,91 @@
 :root {
     --primary-color: #2962FF;
-    --secondary-color: #00C853;
-    --dark-bg: #263238;
-    --light-bg: #F5F5F5;
+    --bg-color: #F5F5F5;
+    --text-color: #333;
+    --card-bg: #ffffff;
+    --section-bg: #ffffff;
+    --section-alt-bg: #f8f9fa;
+    --navbar-bg: #263238;
+}
+
+/* Variables para Modo Oscuro */
+body.dark-mode {
+    --primary-color: #448AFF;
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --section-bg: #121212;
+    --section-alt-bg: #181818;
+    --navbar-bg: #000000;
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--light-bg);
-    color: #333;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Pantalla de Bienvenida */
+/* Tarjetas y Contenedores en Dark Mode */
+.card {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border: none;
+}
+
+.card-header {
+    background-color: var(--card-bg);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.bg-light-section {
+    background-color: var(--section-alt-bg) !important;
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+/* Tablas en Dark Mode */
+body.dark-mode .table {
+    color: var(--text-color);
+    border-color: rgba(255,255,255,0.1);
+}
+
+body.dark-mode .table-striped > tbody > tr:nth-of-type(odd) > * {
+    color: var(--text-color);
+    background-color: rgba(255,255,255,0.05);
+}
+
+body.dark-mode .table-hover > tbody > tr:hover > * {
+    color: white;
+    background-color: rgba(255,255,255,0.1);
+}
+
+body.dark-mode .form-control, 
+body.dark-mode .form-select {
+    background-color: #2d2d2d;
+    border-color: #444;
+    color: #fff;
+}
+
+/* Pantalla Bienvenida */
 .welcome-screen {
-    background: linear-gradient(135deg, var(--dark-bg), #1a237e);
+    background: linear-gradient(135deg, var(--navbar-bg), #1a237e);
     min-height: 100vh;
     display: flex;
     align-items: center;
 }
 
 .welcome-card {
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--card-bg);
     padding: 3rem;
     border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
 }
 
-.welcome-icon {
-    font-size: 5rem;
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-}
-
-.welcome-title {
-    color: var(--dark-bg);
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-/* Navbar */
-.navbar {
-    background-color: var(--dark-bg);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.navbar-brand {
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-/* Títulos de Sección */
-.section-title {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 10px;
-    color: var(--dark-bg);
-    font-weight: 700;
-}
-
-.section-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 4px;
-    background-color: var(--primary-color);
-    border-radius: 2px;
-}
-
-/* Utilidades */
-.fade-in {
-    animation: fadeIn 0.6s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.card {
-    transition: transform 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-/* Ajustes de Tabla */
-.table th {
-    background-color: var(--dark-bg);
-    color: white;
-}
+.welcome-icon { font-size: 5rem; color: var(--primary-color); margin-bottom: 1rem; }
+.section-title { position: relative; display: inline-block; padding-bottom: 10px; font-weight: 700; }
+.section-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background-color: var(--primary-color); }
+.fade-in { animation: fadeIn 0.6s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
