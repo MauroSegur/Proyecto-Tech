@@ -136,7 +136,32 @@ class EnergyManager {
             {"year": 1993, "solar": 4, "wind": 35, "hydro": 3260, "biofuel": 50, "geothermal": 86, "totalRenewable": 3435, "conventional": 15360, "totalGeneration": 18795, "percentage": "18.28"},
             {"year": 1992, "solar": 2, "wind": 26, "hydro": 3215, "biofuel": 50, "geothermal": 84, "totalRenewable": 3377, "conventional": 15240, "totalGeneration": 18617, "percentage": "18.14"},
             {"year": 1991, "solar": 0, "wind": 18, "hydro": 3170, "biofuel": 50, "geothermal": 82, "totalRenewable": 3320, "conventional": 15120, "totalGeneration": 18440, "percentage": "18.00"},
-            {"year": 1990, "solar": 0, "wind": 12, "hydro": 3125, "biofuel": 50, "geothermal": 80, "totalRenewable": 3267, "conventional": 15000, "totalGeneration": 18267, "percentage": "17.88"}
+            {"year": 1990, "solar": 0, "wind": 12, "hydro": 3125, "biofuel": 50, "geothermal": 80, "totalRenewable": 3267, "conventional": 15000, "totalGeneration": 18267, "percentage": "17.88"},
+            {"year": 1989, "solar": 0, "wind": 7, "hydro": 3080, "biofuel": 50, "geothermal": 78, "totalRenewable": 3215, "conventional": 14880, "totalGeneration": 18095, "percentage": "17.77"},
+            {"year": 1988, "solar": 0, "wind": 3, "hydro": 3035, "biofuel": 50, "geothermal": 76, "totalRenewable": 3164, "conventional": 14760, "totalGeneration": 17924, "percentage": "17.65"},
+            {"year": 1987, "solar": 0, "wind": 1, "hydro": 2990, "biofuel": 50, "geothermal": 74, "totalRenewable": 3115, "conventional": 14640, "totalGeneration": 17755, "percentage": "17.54"},
+            {"year": 1986, "solar": 0, "wind": 0, "hydro": 2945, "biofuel": 50, "geothermal": 72, "totalRenewable": 3067, "conventional": 14520, "totalGeneration": 17587, "percentage": "17.44"},
+            {"year": 1985, "solar": 0, "wind": 0, "hydro": 2900, "biofuel": 50, "geothermal": 70, "totalRenewable": 3020, "conventional": 14400, "totalGeneration": 17420, "percentage": "17.34"},
+            {"year": 1984, "solar": 0, "wind": 0, "hydro": 2855, "biofuel": 50, "geothermal": 68, "totalRenewable": 2973, "conventional": 14280, "totalGeneration": 17253, "percentage": "17.23"},
+            {"year": 1983, "solar": 0, "wind": 0, "hydro": 2810, "biofuel": 50, "geothermal": 66, "totalRenewable": 2926, "conventional": 14160, "totalGeneration": 17086, "percentage": "17.13"},
+            {"year": 1982, "solar": 0, "wind": 0, "hydro": 2765, "biofuel": 50, "geothermal": 64, "totalRenewable": 2879, "conventional": 14040, "totalGeneration": 16919, "percentage": "17.02"},
+            {"year": 1981, "solar": 0, "wind": 0, "hydro": 2720, "biofuel": 50, "geothermal": 62, "totalRenewable": 2832, "conventional": 13920, "totalGeneration": 16752, "percentage": "16.91"},
+            {"year": 1980, "solar": 0, "wind": 0, "hydro": 2675, "biofuel": 50, "geothermal": 60, "totalRenewable": 2785, "conventional": 13800, "totalGeneration": 16585, "percentage": "16.79"},
+            {"year": 1979, "solar": 0, "wind": 0, "hydro": 2630, "biofuel": 50, "geothermal": 58, "totalRenewable": 2738, "conventional": 13680, "totalGeneration": 16418, "percentage": "16.68"},
+            {"year": 1978, "solar": 0, "wind": 0, "hydro": 2585, "biofuel": 50, "geothermal": 56, "totalRenewable": 2691, "conventional": 13560, "totalGeneration": 16251, "percentage": "16.56"},
+            {"year": 1977, "solar": 0, "wind": 0, "hydro": 2540, "biofuel": 50, "geothermal": 54, "totalRenewable": 2644, "conventional": 13440, "totalGeneration": 16084, "percentage": "16.44"},
+            {"year": 1976, "solar": 0, "wind": 0, "hydro": 2495, "biofuel": 50, "geothermal": 52, "totalRenewable": 2597, "conventional": 13320, "totalGeneration": 15917, "percentage": "16.32"},
+            {"year": 1975, "solar": 0, "wind": 0, "hydro": 2450, "biofuel": 50, "geothermal": 50, "totalRenewable": 2550, "conventional": 13200, "totalGeneration": 15750, "percentage": "16.19"},
+            {"year": 1974, "solar": 0, "wind": 0, "hydro": 2405, "biofuel": 50, "geothermal": 48, "totalRenewable": 2503, "conventional": 13080, "totalGeneration": 15583, "percentage": "16.06"},
+            {"year": 1973, "solar": 0, "wind": 0, "hydro": 2360, "biofuel": 50, "geothermal": 46, "totalRenewable": 2456, "conventional": 12960, "totalGeneration": 15416, "percentage": "15.93"},
+            {"year": 1972, "solar": 0, "wind": 0, "hydro": 2315, "biofuel": 50, "geothermal": 44, "totalRenewable": 2409, "conventional": 12840, "totalGeneration": 15249, "percentage": "15.80"},
+            {"year": 1971, "solar": 0, "wind": 0, "hydro": 2270, "biofuel": 50, "geothermal": 42, "totalRenewable": 2362, "conventional": 12720, "totalGeneration": 15082, "percentage": "15.66"},
+            {"year": 1970, "solar": 0, "wind": 0, "hydro": 2225, "biofuel": 50, "geothermal": 40, "totalRenewable": 2315, "conventional": 12600, "totalGeneration": 14915, "percentage": "15.52"},
+            {"year": 1969, "solar": 0, "wind": 0, "hydro": 2180, "biofuel": 50, "geothermal": 38, "totalRenewable": 2268, "conventional": 12480, "totalGeneration": 14748, "percentage": "15.38"},
+            {"year": 1968, "solar": 0, "wind": 0, "hydro": 2135, "biofuel": 50, "geothermal": 36, "totalRenewable": 2221, "conventional": 12360, "totalGeneration": 14581, "percentage": "15.23"},
+            {"year": 1967, "solar": 0, "wind": 0, "hydro": 2090, "biofuel": 50, "geothermal": 34, "totalRenewable": 2174, "conventional": 12240, "totalGeneration": 14414, "percentage": "15.08"},
+            {"year": 1966, "solar": 0, "wind": 0, "hydro": 2045, "biofuel": 50, "geothermal": 32, "totalRenewable": 2127, "conventional": 12120, "totalGeneration": 14247, "percentage": "14.93"},
+            {"year": 1965, "solar": 0, "wind": 0, "hydro": 2000, "biofuel": 50, "geothermal": 30, "totalRenewable": 2080, "conventional": 12000, "totalGeneration": 14080, "percentage": "14.77"}
         ];
         
         this.charts = { bar: null, pie: null, line: null, area: null };
@@ -190,7 +215,7 @@ class EnergyManager {
         });
     }
 
-    // AQUI SE APLICA EL CAMBIO DE COLOR DE LA COLUMNA CONVENCIONAL
+    // AQUI SE APLICA LA UNIFORMIDAD DE COLORES EN LA TABLA
     renderTable() {
         const tbody = document.getElementById('tableBody');
         if (!tbody) return;
@@ -201,12 +226,10 @@ class EnergyManager {
                 <td>${row.wind}</td>
                 <td>${row.hydro}</td>
                 <td>${(row.biofuel + row.geothermal).toFixed(0)}</td>
-                <td class="text-success fw-bold">${(row.totalRenewable).toFixed(0)}</td>
-                
-                <!-- Columna corregida con clase personalizada -->
-                <td class="fw-extra-bold-contrast">${(row.conventional).toFixed(0)}</td>
-                
-                <td><span class="badge bg-${row.percentage > 20 ? 'success' : 'warning'} rounded-pill px-3">${row.percentage}%</span></td>
+                <td class="fw-bold">${(row.totalRenewable).toFixed(0)}</td>
+                <td class="fw-bold">${(row.conventional).toFixed(0)}</td>
+                <!-- Solo el badge mantiene color -->
+                <td><span class="badge bg-${row.percentage > 20 ? 'success' : 'warning'} rounded-pill px-3 shadow-sm">${row.percentage}%</span></td>
             </tr>
         `).join('');
     }
