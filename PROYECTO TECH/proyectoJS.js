@@ -227,8 +227,7 @@ class EnergyManager {
                 <td>${row.hydro}</td>
                 <td>${(row.biofuel + row.geothermal).toFixed(0)}</td>
                 <td class="fw-bold">${(row.totalRenewable).toFixed(0)}</td>
-                <td class="fw-bold">${(row.conventional).toFixed(0)}</td>
-                <!-- Solo el badge mantiene color -->
+                <td class="fw-extra-bold-contrast">${(row.conventional).toFixed(0)}</td>
                 <td><span class="badge bg-${row.percentage > 20 ? 'success' : 'warning'} rounded-pill px-3 shadow-sm">${row.percentage}%</span></td>
             </tr>
         `).join('');

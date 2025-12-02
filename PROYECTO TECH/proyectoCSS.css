@@ -2,11 +2,11 @@
     --primary-color: #0d6efd;
     --bg-color: #f8f9fa;
     --text-color: #212529;
-    --card-bg: #ffffff;
-    --navbar-bg: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.9); /* Más transparente */
+    --navbar-bg: rgba(255, 255, 255, 0.95);
     --navbar-text: #212529;
     --border-color: #dee2e6;
-    --section-alt: #e9ecef;
+    --section-alt: rgba(233, 236, 239, 0.7); /* Transparente para ver el fondo */
     --input-bg: #ffffff;
     --input-text: #212529;
 }
@@ -16,20 +16,50 @@ body.dark-mode {
     --primary-color: #3d8bfd;
     --bg-color: #121212;
     --text-color: #e0e0e0;
-    --card-bg: #1e1e1e;
-    --navbar-bg: #000000;
+    --card-bg: rgba(30, 30, 30, 0.85); /* Fondo oscuro transparente */
+    --navbar-bg: rgba(0, 0, 0, 0.9);
     --navbar-text: #ffffff;
     --border-color: #333333;
-    --section-alt: #181818;
+    --section-alt: rgba(24, 24, 24, 0.7); /* Secciones transparentes */
     --input-bg: #2d2d2d;
     --input-text: #ffffff;
 }
 
+/* =========================================
+   FONDO AJUSTABLE (LA IMAGEN SE VERÁ AHORA)
+   ========================================= */
+
+/* Fondo MODO CLARO: Imagen con capa blanca al 85% (se ve la foto) */
 body {
-    background-color: var(--bg-color);
+    background: 
+        linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)),
+        url('https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1920&q=80') 
+        no-repeat center center fixed;
+    background-size: cover;
+    
     color: var(--text-color);
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Fondo MODO OSCURO: Imagen con capa negra al 85% (se ve la foto oscura) */
+body.dark-mode {
+    background: 
+        linear-gradient(rgba(18, 18, 18, 0.85), rgba(18, 18, 18, 0.85)),
+        url('https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1920&q=80') 
+        no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* CORRECCIÓN DE TEXTO (Gris claro en modo oscuro) */
+body.dark-mode .text-muted {
+    color: #b0b3b8 !important;
+}
+
+/* Títulos principales */
+body.dark-mode .section-title-main {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 /* Navbar Dinámico */
@@ -37,6 +67,7 @@ body {
     background-color: var(--navbar-bg) !important;
     border-bottom: 1px solid var(--border-color);
     transition: background-color 0.3s;
+    backdrop-filter: blur(10px);
 }
 
 .navbar .navbar-brand, 
@@ -48,7 +79,7 @@ body {
     color: var(--primary-color) !important;
 }
 
-/* Toggle Button Style */
+/* Toggle Button */
 .btn-theme-toggle {
     color: var(--navbar-text);
     border-color: var(--border-color);
@@ -58,7 +89,7 @@ body {
     color: var(--navbar-text);
 }
 
-/* Pantalla de Bienvenida con Fondo */
+/* Pantalla de Bienvenida */
 .welcome-screen {
     position: relative;
     min-height: 100vh;
@@ -93,6 +124,7 @@ body {
     background-color: var(--card-bg);
     color: var(--text-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--border-color);
 }
 
 .shadow-hover:hover {
@@ -100,11 +132,28 @@ body {
     box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
 }
 
+/* Secciones transparentes para ver el fondo */
 .bg-section-alt {
     background-color: var(--section-alt);
+    border-radius: 20px;
+    margin: 20px 0;
+    backdrop-filter: blur(5px); /* Efecto vidrio sutil */
 }
 
-/* Tablas - Corrección de contraste */
+/* TARJETAS DE INFORMACIÓN */
+.info-card {
+    border-top: 4px solid transparent !important;
+    transition: transform 0.3s;
+}
+.info-card:hover {
+    transform: translateY(-5px);
+}
+.card-solar { border-color: #ffc107 !important; }
+.card-wind { border-color: #0dcaf0 !important; }
+.card-hydro { border-color: #0d6efd !important; }
+.card-bio { border-color: #198754 !important; }
+
+/* Tablas */
 .table {
     color: var(--text-color);
     --bs-table-bg: transparent;
@@ -115,32 +164,37 @@ body {
     color: white;
 }
 
-/* CORRECCIÓN TABLA MODO OSCURO (DARK MODE) - SOLUCIÓN FINAL */
+/* CORRECCIÓN TABLA MODO OSCURO */
 body.dark-mode #tableBody td,
 body.dark-mode #tableBody th {
-    color: #ffffff !important; /* Texto blanco brillante */
+    color: #ffffff !important;
     border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Fondo de filas impares para que el texto blanco resalte */
 body.dark-mode .table-striped > tbody > tr:nth-of-type(odd) > * {
     background-color: rgba(255, 255, 255, 0.05) !important;
     color: #ffffff !important;
 }
 
-/* Efecto Hover en modo oscuro */
 body.dark-mode .table-hover > tbody > tr:hover > * {
     background-color: rgba(13, 110, 253, 0.2) !important;
     color: #ffffff !important;
 }
 
-/* Fuente de los números para mejor lectura */
 #tableBody td {
     font-weight: 500;
     font-family: 'Consolas', 'Monaco', monospace; 
 }
 
-/* Formularios en Modo Oscuro */
+.fw-extra-bold-contrast {
+    font-weight: 800;
+    color: #d63384; 
+}
+body.dark-mode .fw-extra-bold-contrast {
+    color: #ff80ab;
+}
+
+/* Formularios */
 .form-control, .form-select {
     background-color: var(--input-bg);
     color: var(--input-text);
